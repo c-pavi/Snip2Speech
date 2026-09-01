@@ -1,21 +1,26 @@
 # Snip2Speech
 
-A macOS tool that lets you select any screen region (works across multiple monitors), extracts text using OCR, and reads it aloud using macOS's built-in text-to-speech.
+A macOS tool that lets you select any screen region (works across multiple
+monitors), extracts text using OCR, and reads it aloud using macOS's
+built-in text-to-speech.
 
 ## Features
 
-- 🖥️ **Multi-monitor support**: Select regions from any connected monitor
-- 📸 **Interactive selection**: Uses macOS's native screen capture UI
-- 🔍 **OCR powered by Tesseract**: Extracts text from images
-- 🔊 **Text-to-speech**: Reads extracted text aloud using macOS `say` command
-- 📋 **Auto-copy**: Automatically copies extracted text to clipboard
+- 🖥️ **Multi-monitor support**: select regions from any connected monitor
+- 📸 **Interactive selection**: uses macOS's native screen capture UI
+- 🔍 **OCR powered by Tesseract**, with grayscale/contrast/upscale
+  preprocessing for small or low-contrast screenshots
+- 🔊 **Text-to-speech**: reads extracted text aloud using macOS `say`
+- 📋 **Auto-copy**: copies extracted text to the clipboard
+- 📊 **Table detection**: detects tabular data (tabs or aligned columns),
+  parses it with pandas, and copies it as TSV instead of reading it word
+  by word
 
 ## Requirements
 
 - macOS (uses native `screencapture` and `say` commands)
-- Python 3.6+
+- Python 3.8+
 - Tesseract OCR
-- Python dependencies (see Installation)
 
 ## Installation
 
@@ -24,54 +29,86 @@ A macOS tool that lets you select any screen region (works across multiple monit
    brew install tesseract
    ```
 
-2. **Install Python dependencies:**
+2. **Install Snip2Speech:**
    ```bash
-   pip install -r requirements.txt
+   pip install -e .
    ```
+   This gives you the `snip2speech` command. If you'd rather not install
+   the package, `pip install -r requirements.txt` plus
+   `python3 speak_selection_mac_mm.py` still works.
 
-   Or manually:
+3. **Point at Tesseract, if needed**, with `--tesseract-cmd`:
    ```bash
-   pip install pillow pytesseract
+   snip2speech --tesseract-cmd /opt/homebrew/bin/tesseract  # Apple Silicon
+   snip2speech --tesseract-cmd /usr/local/bin/tesseract     # Intel
    ```
-
-3. **Configure Tesseract path (if needed):**
-   
-   If you encounter issues finding Tesseract, uncomment the appropriate line in `speak_selection_mac_mm.py`:
-   - For Apple Silicon Macs: `/opt/homebrew/bin/tesseract`
-   - For Intel Macs: `/usr/local/bin/tesseract`
 
 ## Usage
 
-Run the script:
 ```bash
-python3 speak_selection_mac_mm.py
+snip2speech
 ```
 
-1. The script will prompt you to select a region on your screen
-2. Drag to select the area containing text you want to read
-3. Press `Esc` to cancel
-4. The text will be:
-   - Extracted via OCR
-   - Displayed in the terminal
-   - Copied to your clipboard
-   - Read aloud using macOS text-to-speech
+1. Drag to select the region containing the text you want to read.
+2. Press `Esc` to cancel.
+3. The text is extracted via OCR, then:
+   - **If it looks like a table** (tabs or aligned columns, 3+ rows,
+     consistent column count): parsed into a pandas DataFrame, printed,
+     copied as TSV, and a brief spoken summary ("Table with N rows and
+     M columns").
+   - **Otherwise**: printed, copied as plain text, and read aloud in full.
 
-## Configuration
+### Options
 
-You can customize the following in `speak_selection_mac_mm.py`:
+```
+--lang LANG              Tesseract language (default: eng)
+--rate RATE               Speech rate in WPM (default: 190)
+--voice VOICE              macOS 'say' voice, e.g. Alex (default: Samantha)
+--psm PSM                 Tesseract page segmentation mode (default: 6)
+--oem OEM                 Tesseract OCR engine mode (default: 3)
+--tesseract-cmd PATH      Explicit path to the tesseract binary
+--no-preprocess           Skip grayscale/contrast/upscale preprocessing
+--no-speak                Extract and copy text, but don't read it aloud
+--no-clipboard            Don't copy the extracted text to the clipboard
+```
 
-- `TESS_LANG`: OCR language (default: `"eng"`). Install additional languages via Homebrew if needed
-- `SAY_RATE_WPM`: Speech rate in words per minute (default: `190`, natural range: 150-220)
-- Voice: Currently set to `"Samantha"`. Change in the `main()` function or pass `None` to use system default
+Run `snip2speech --help` for the full list.
+
+## Project layout
+
+```
+snip2speech/
+├── snip2speech/
+│   ├── capture.py      # wraps `screencapture`
+│   ├── preprocess.py   # grayscale/contrast/upscale before OCR
+│   ├── ocr.py           # wraps Tesseract
+│   ├── table.py         # tabular-data detection
+│   ├── output.py        # clipboard + speech
+│   ├── config.py        # defaults, overridden by CLI flags
+│   └── cli.py           # argparse + orchestration
+├── tests/                # pytest, covers preprocess.py and table.py
+├── benchmarks/           # measures preprocessing's effect on OCR accuracy
+└── speak_selection_mac_mm.py  # deprecated entry point, kept for old hotkeys/workflows
+```
+
+## Development
+
+```bash
+pip install -e ".[dev]"
+pytest
+```
+
+See [benchmarks/README.md](benchmarks/README.md) to measure OCR accuracy
+before/after preprocessing on your own screenshots.
 
 ## Troubleshooting
 
 **"Tesseract not found" error:**
 - Make sure Tesseract is installed: `brew install tesseract`
-- If installed but not found, uncomment the appropriate `pytesseract.tesseract_cmd` line in the script
+- If installed but not found, pass `--tesseract-cmd` (see above)
 
 **"screencapture not found" error:**
-- This should not happen on macOS. If it does, your system may be misconfigured
+- This should not happen on macOS. If it does, your system may be misconfigured.
 
 ## License
 
