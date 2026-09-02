@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>clear_dialog</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    margin: 0;
+    background: #d9d9dc;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 40px;
+  }
+  .caption {
+    font-size: 13px;
+    color: #444;
+    margin-bottom: 8px;
+  }
+  .capture {
+    display: inline-block;
+    border: 1px dashed #999;
+    padding: 16px;
+  }
+  .dialog {
+    width: 380px;
+    background: #f4f4f6;
+    border: 1px solid #c4c4c8;
+    border-radius: 10px;
+    padding: 20px 22px;
+    color: #1d1d1f;
+  }
+  .dialog h1 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+  .dialog p {
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0 0 16px;
+    color: #1d1d1f;
+  }
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  .btn {
+    font-size: 13px;
+    padding: 5px 14px;
+    border-radius: 6px;
+    border: 1px solid #b8b8bc;
+    background: #ffffff;
+    color: #1d1d1f;
+  }
+  .btn.primary {
+    background: #1d1d1f;
+    border-color: #1d1d1f;
+    color: #ffffff;
+  }
+</style>
+</head>
+<body>
+  <div class="caption">Save screenshot as: <b>clear_dialog.png</b> &nbsp;&middot;&nbsp; capture inside the dashed box, exclude the dashed line</div>
+  <div class="capture">
+    <div class="dialog">
+      <h1>Move to Trash?</h1>
+      <p>This will move the selected folder and all of its contents to the Trash. You can put the items back later, but the space they use is not reclaimed until you empty the Trash.</p>
+      <div class="buttons">
+        <span class="btn">Cancel</span>
+        <span class="btn primary">Move to Trash</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>dense_or_dark</title>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0;
+    background: #2a2a2c;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 40px;
+  }
+  .caption {
+    font-size: 13px;
+    color: #cfcfcf;
+    margin-bottom: 8px;
+  }
+  .capture {
+    display: inline-block;
+    border: 1px dashed #777;
+    padding: 18px 20px;
+  }
+  .panel {
+    width: 460px;
+    background: #1c1c1e;
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .panel h3 {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #9a9aa0;
+    margin: 0 0 8px;
+  }
+  .panel p {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #7c7c82;
+    margin: 0 0 10px;
+  }
+  .panel li {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #7c7c82;
+    margin-bottom: 4px;
+  }
+  .panel ul { margin: 0; padding-left: 18px; }
+</style>
+</head>
+<body>
+  <div class="caption">Save screenshot as: <b>dense_or_dark.png</b> &nbsp;&middot;&nbsp; capture inside the dashed box, exclude the dashed line</div>
+  <div class="capture">
+    <div class="panel">
+      <h3>Release notes</h3>
+      <p>This build focuses on stability and correctness. We fixed a crash that happened when opening a document from a network volume that disconnected in the middle of a read. Scrolling in long lists is smoother on older hardware, and the export dialog now remembers the last folder you used.</p>
+      <ul>
+        <li>Several rare memory leaks were closed</li>
+        <li>Keyboard shortcuts work again in the preview window</li>
+        <li>Large paste operations no longer freeze the editor</li>
+        <li>Localization was refreshed for twelve languages</li>
+      </ul>
+      <p>As always, thank you for the detailed bug reports. They make a real difference and most of the fixes above came directly from them.</p>
+    </div>
+  </div>
+</body>
+</html>

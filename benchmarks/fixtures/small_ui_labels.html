@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>small_ui_labels</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    margin: 0;
+    background: #e8e8ea;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 40px;
+  }
+  .caption {
+    font-size: 13px;
+    color: #444;
+    margin-bottom: 8px;
+  }
+  .capture {
+    display: inline-block;
+    border: 1px dashed #999;
+    padding: 14px;
+  }
+  .panel {
+    width: 340px;
+    background: #fbfbfd;
+    border: 1px solid #d0d0d3;
+    border-radius: 8px;
+    padding: 16px 18px;
+    color: #1d1d1f;
+  }
+  .panel h2 {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  .panel .intro {
+    font-size: 10.5px;
+    line-height: 1.45;
+    color: #6b6b70;
+    margin: 0 0 14px;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 7px 0;
+    border-top: 1px solid #ececee;
+  }
+  .row .label { font-size: 11px; color: #1d1d1f; }
+  .row .value { font-size: 11px; color: #8a8a8f; }
+  .foot {
+    font-size: 10px;
+    line-height: 1.45;
+    color: #8a8a8f;
+    margin: 12px 0 0;
+  }
+</style>
+</head>
+<body>
+  <div class="caption">Save screenshot as: <b>small_ui_labels.png</b> &nbsp;&middot;&nbsp; capture inside the dashed box, exclude the dashed line</div>
+  <div class="capture">
+    <div class="panel">
+      <h2>Notifications</h2>
+      <p class="intro">Alerts appear in the top right corner and are grouped automatically by application. You can adjust the details for each app below or turn grouping off entirely.</p>
+      <div class="row"><span class="label">Play sound for incoming alerts</span><span class="value">On</span></div>
+      <div class="row"><span class="label">Show previews only when unlocked</span><span class="value">On</span></div>
+      <div class="row"><span class="label">Badge the app icon with an unread count</span><span class="value">Off</span></div>
+      <div class="row"><span class="label">Repeat alerts twice after one minute</span><span class="value">Off</span></div>
+      <p class="foot">Focus mode can silence these notifications on a schedule. When Focus ends, anything you missed is delivered as a summary.</p>
+    </div>
+  </div>
+</body>
+</html>
