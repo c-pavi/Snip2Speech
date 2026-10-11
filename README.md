@@ -57,6 +57,9 @@ snip2speech
      copied as TSV, and a brief spoken summary ("Table with N rows and
      M columns").
    - **Otherwise**: printed, copied as plain text, and read aloud in full.
+     Before speaking, bullets are dropped and a pause is added at each line
+     break that isn't just screen-width wrapping, so lists and headings
+     don't run together. The clipboard keeps the raw OCR text.
 
 ### Options
 
@@ -70,6 +73,7 @@ snip2speech
 --no-preprocess           Skip grayscale/contrast/upscale preprocessing
 --no-speak                Extract and copy text, but don't read it aloud
 --no-clipboard            Don't copy the extracted text to the clipboard
+--raw-speech              Read the OCR text exactly as extracted (skip bullet removal / added pauses)
 ```
 
 Run `snip2speech --help` for the full list.
@@ -83,6 +87,7 @@ snip2speech/
 │   ├── preprocess.py   # grayscale/contrast/upscale before OCR
 │   ├── ocr.py           # wraps Tesseract
 │   ├── table.py         # tabular-data detection
+│   ├── speech_text.py   # bullet removal + pauses so speech sounds natural
 │   ├── output.py        # clipboard + speech
 │   ├── config.py        # defaults, overridden by CLI flags
 │   └── cli.py           # argparse + orchestration

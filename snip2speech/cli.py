@@ -10,6 +10,7 @@ from .capture import capture_region
 from .config import Config
 from .ocr import ocr_image
 from .output import copy_to_clipboard, speak
+from .speech_text import prepare_for_speech
 from .table import try_parse_as_table
 
 
@@ -27,6 +28,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--tesseract-cmd", default=None, help="Explicit path to the tesseract binary")
     parser.add_argument("--no-preprocess", action="store_true", help="Skip grayscale/contrast/upscale preprocessing")
     parser.add_argument("--no-speak", action="store_true", help="Extract and copy text, but don't read it aloud")
+    parser.add_argument("--raw-speech", action="store_true", help="Read the OCR text exactly as extracted (no bullet removal or added pauses)")
     parser.add_argument("--no-clipboard", action="store_true", help="Don't copy the extracted text to the clipboard")
     return parser
 
@@ -42,6 +44,7 @@ def _config_from_args(args: argparse.Namespace) -> Config:
         preprocess=not args.no_preprocess,
         speak_output=not args.no_speak,
         copy_clipboard=not args.no_clipboard,
+        speech_cleanup=not args.raw_speech,
     )
 
 
@@ -78,7 +81,8 @@ def _run(config: Config) -> int:
         if config.copy_clipboard:
             copy_to_clipboard(text)
         if config.speak_output:
-            speak(text, config.rate, config.voice)
+            spoken = prepare_for_speech(text) if config.speech_cleanup else text
+            speak(spoken, config.rate, config.voice)
 
     return 0
 

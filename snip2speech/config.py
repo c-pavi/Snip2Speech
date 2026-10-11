@@ -15,3 +15,4 @@ class Config:
     preprocess: bool = True               # grayscale/contrast/upscale before OCR
     speak_output: bool = True             # read the result aloud
     copy_clipboard: bool = True           # copy the result to the clipboard
+    speech_cleanup: bool = True           # strip bullets / add pauses before speaking
